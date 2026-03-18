@@ -7,6 +7,23 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- =============================================
+-- admin 체크 함수 (RLS 재귀 방지 - SECURITY DEFINER)
+-- =============================================
+CREATE OR REPLACE FUNCTION public.is_admin()
+RETURNS BOOLEAN
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.profiles
+    WHERE id = auth.uid() AND role = 'admin'
+  );
+
+$$;
+
+-- =============================================
 -- 1. profiles (회원)
 -- =============================================
 CREATE TABLE IF NOT EXISTS public.profiles (
@@ -18,19 +35,6 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-
--- 고객: 자기 프로필만 조회/수정
-CREATE POLICY "profiles_select_own" ON public.profiles
-  FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "profiles_update_own" ON public.profiles
-  FOR UPDATE USING (auth.uid() = id);
--- admin: 전체 조회
-CREATE POLICY "profiles_select_admin" ON public.profiles
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
-  );
 
 -- =============================================
 -- 2. categories (카테고리)
@@ -44,20 +48,6 @@ CREATE TABLE IF NOT EXISTS public.categories (
   is_active BOOLEAN NOT NULL DEFAULT true,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-
-ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
-
--- 누구나 활성 카테고리 조회 가능
-CREATE POLICY "categories_select_public" ON public.categories
-  FOR SELECT USING (is_active = true);
--- admin: 전체 CRUD
-CREATE POLICY "categories_all_admin" ON public.categories
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
-  );
-
-CREATE INDEX idx_categories_slug ON public.categories(slug);
-CREATE INDEX idx_categories_sort ON public.categories(sort_order);
 
 -- =============================================
 -- 3. products (상품)
@@ -90,24 +80,6 @@ CREATE TABLE IF NOT EXISTS public.products (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
-
--- 누구나 활성 상품 조회 가능
-CREATE POLICY "products_select_public" ON public.products
-  FOR SELECT USING (status = 'active');
--- admin: 전체 CRUD
-CREATE POLICY "products_all_admin" ON public.products
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
-  );
-
-CREATE INDEX idx_products_slug ON public.products(slug);
-CREATE INDEX idx_products_category ON public.products(category_id);
-CREATE INDEX idx_products_status ON public.products(status);
-CREATE INDEX idx_products_featured ON public.products(is_featured) WHERE is_featured = true;
-CREATE INDEX idx_products_sort ON public.products(sort_order);
-CREATE INDEX idx_products_sale_price ON public.products(sale_price);
-
 -- =============================================
 -- 4. license_keys (라이선스 키)
 -- =============================================
@@ -120,19 +92,6 @@ CREATE TABLE IF NOT EXISTS public.license_keys (
   sold_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-
-ALTER TABLE public.license_keys ENABLE ROW LEVEL SECURITY;
-
--- 고객은 직접 접근 불가 (API를 통해서만 납품)
--- admin: 전체 CRUD
-CREATE POLICY "license_keys_all_admin" ON public.license_keys
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
-  );
-
-CREATE INDEX idx_license_keys_product ON public.license_keys(product_id);
-CREATE INDEX idx_license_keys_status ON public.license_keys(status);
-CREATE INDEX idx_license_keys_available ON public.license_keys(product_id, status) WHERE status = 'available';
 
 -- =============================================
 -- 5. orders (주문)
@@ -155,22 +114,6 @@ CREATE TABLE IF NOT EXISTS public.orders (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
-
--- 고객: 자기 주문만 조회
-CREATE POLICY "orders_select_own" ON public.orders
-  FOR SELECT USING (auth.uid() = user_id);
--- admin: 전체 CRUD
-CREATE POLICY "orders_all_admin" ON public.orders
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
-  );
-
-CREATE INDEX idx_orders_user ON public.orders(user_id);
-CREATE INDEX idx_orders_status ON public.orders(status);
-CREATE INDEX idx_orders_number ON public.orders(order_number);
-CREATE INDEX idx_orders_created ON public.orders(created_at DESC);
-
 -- =============================================
 -- 6. order_items (주문 상세)
 -- =============================================
@@ -184,22 +127,6 @@ CREATE TABLE IF NOT EXISTS public.order_items (
   license_key_id UUID REFERENCES public.license_keys(id) ON DELETE SET NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
-
-ALTER TABLE public.order_items ENABLE ROW LEVEL SECURITY;
-
--- 고객: 자기 주문의 아이템만 조회
-CREATE POLICY "order_items_select_own" ON public.order_items
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM public.orders WHERE id = order_items.order_id AND user_id = auth.uid())
-  );
--- admin: 전체 CRUD
-CREATE POLICY "order_items_all_admin" ON public.order_items
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
-  );
-
-CREATE INDEX idx_order_items_order ON public.order_items(order_id);
-CREATE INDEX idx_order_items_product ON public.order_items(product_id);
 
 -- =============================================
 -- 7. reviews (구매후기)
@@ -217,19 +144,94 @@ CREATE TABLE IF NOT EXISTS public.reviews (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- =============================================
+-- RLS 활성화
+-- =============================================
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.license_keys ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
 
--- 누구나 공개 리뷰 조회 가능
+-- =============================================
+-- RLS 정책 (is_admin() 함수 사용)
+-- =============================================
+
+-- profiles
+CREATE POLICY "profiles_select_own" ON public.profiles
+  FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "profiles_update_own" ON public.profiles
+  FOR UPDATE USING (auth.uid() = id);
+CREATE POLICY "profiles_select_admin" ON public.profiles
+  FOR SELECT USING (public.is_admin());
+
+-- categories
+CREATE POLICY "categories_select_public" ON public.categories
+  FOR SELECT USING (is_active = true);
+CREATE POLICY "categories_all_admin" ON public.categories
+  FOR ALL USING (public.is_admin());
+
+-- products
+CREATE POLICY "products_select_public" ON public.products
+  FOR SELECT USING (status = 'active');
+CREATE POLICY "products_all_admin" ON public.products
+  FOR ALL USING (public.is_admin());
+
+-- license_keys
+CREATE POLICY "license_keys_all_admin" ON public.license_keys
+  FOR ALL USING (public.is_admin());
+
+-- orders
+CREATE POLICY "orders_select_own" ON public.orders
+  FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "orders_all_admin" ON public.orders
+  FOR ALL USING (public.is_admin());
+
+-- order_items
+CREATE POLICY "order_items_select_own" ON public.order_items
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM public.orders
+      WHERE id = order_items.order_id AND user_id = auth.uid()
+    )
+  );
+CREATE POLICY "order_items_all_admin" ON public.order_items
+  FOR ALL USING (public.is_admin());
+
+-- reviews
 CREATE POLICY "reviews_select_public" ON public.reviews
   FOR SELECT USING (is_visible = true);
--- 고객: 자기 리뷰 작성
 CREATE POLICY "reviews_insert_own" ON public.reviews
   FOR INSERT WITH CHECK (auth.uid() = user_id);
--- admin: 전체 CRUD
 CREATE POLICY "reviews_all_admin" ON public.reviews
-  FOR ALL USING (
-    EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin')
-  );
+  FOR ALL USING (public.is_admin());
+
+-- =============================================
+-- 인덱스
+-- =============================================
+CREATE INDEX idx_categories_slug ON public.categories(slug);
+CREATE INDEX idx_categories_sort ON public.categories(sort_order);
+
+CREATE INDEX idx_products_slug ON public.products(slug);
+CREATE INDEX idx_products_category ON public.products(category_id);
+CREATE INDEX idx_products_status ON public.products(status);
+CREATE INDEX idx_products_featured ON public.products(is_featured) WHERE is_featured = true;
+CREATE INDEX idx_products_sort ON public.products(sort_order);
+CREATE INDEX idx_products_sale_price ON public.products(sale_price);
+
+CREATE INDEX idx_license_keys_product ON public.license_keys(product_id);
+CREATE INDEX idx_license_keys_status ON public.license_keys(status);
+CREATE INDEX idx_license_keys_available ON public.license_keys(product_id, status) WHERE status = 'available';
+
+CREATE INDEX idx_orders_user ON public.orders(user_id);
+CREATE INDEX idx_orders_status ON public.orders(status);
+CREATE INDEX idx_orders_number ON public.orders(order_number);
+CREATE INDEX idx_orders_created ON public.orders(created_at DESC);
+
+CREATE INDEX idx_order_items_order ON public.order_items(order_id);
+CREATE INDEX idx_order_items_product ON public.order_items(product_id);
 
 CREATE INDEX idx_reviews_product ON public.reviews(product_id);
 CREATE INDEX idx_reviews_visible ON public.reviews(product_id, is_visible) WHERE is_visible = true;
