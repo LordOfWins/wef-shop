@@ -198,8 +198,7 @@ export async function POST(request: NextRequest) {
           product_id: cartItem.productId,
           product_name: cartItem.name,
           quantity: cartItem.quantity,
-          unit_price: cartItem.price,
-          subtotal: cartItem.price * cartItem.quantity,
+          price: cartItem.price,
         });
 
       if (itemError) {

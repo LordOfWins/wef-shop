@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { formatPrice } from '@/lib/utils';
-import { useCartStore } from '@/store/cart';
+import type { CartItem } from '@/store/cartStore';
+import { useCartStore } from '@/store/cartStore';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 import Image from 'next/image';
@@ -49,9 +50,9 @@ export default function CartPageClient() {
         </div>
 
         <AnimatePresence>
-          {items.map((item) => (
+          {items.map((item: CartItem) => (
             <motion.div
-              key={item.id}
+              key={item.product.id}
               layout
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -61,10 +62,10 @@ export default function CartPageClient() {
               <div className="flex gap-4">
                 {/* 상품 이미지 */}
                 <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-                  {item.image ? (
+                  {item.product.image_url ? (
                     <Image
-                      src={item.image}
-                      alt={item.name}
+                      src={item.product.image_url}
+                      alt={item.product.name}
                       fill
                       className="object-cover"
                     />
@@ -78,13 +79,15 @@ export default function CartPageClient() {
                 {/* 상품 정보 */}
                 <div className="flex-1 min-w-0">
                   <h3 className="font-medium text-gray-900 truncate">
-                    {item.name}
+                    {item.product.name}
                   </h3>
-                  {item.option && (
-                    <p className="text-sm text-gray-500 mt-1">{item.option}</p>
+                  {item.product.original_price > item.product.sale_price && (
+                    <p className="text-xs text-gray-400 line-through mt-0.5">
+                      {formatPrice(item.product.original_price)}
+                    </p>
                   )}
-                  <p className="text-primary font-semibold mt-2">
-                    {formatPrice(item.price)}
+                  <p className="text-primary font-semibold mt-1">
+                    {formatPrice(item.product.sale_price)}
                   </p>
 
                   {/* 수량 조절 + 삭제 */}
@@ -94,7 +97,7 @@ export default function CartPageClient() {
                         variant="outline"
                         size="sm"
                         onClick={() =>
-                          updateQuantity(item.id, Math.max(1, item.quantity - 1))
+                          updateQuantity(item.product.id, Math.max(1, item.quantity - 1))
                         }
                         disabled={item.quantity <= 1}
                         className="w-8 h-8 p-0"
@@ -109,16 +112,16 @@ export default function CartPageClient() {
                         onChange={(e) => {
                           const val = parseInt(e.target.value);
                           if (val >= 1 && val <= 99) {
-                            updateQuantity(item.id, val);
+                            updateQuantity(item.product.id, val);
                           }
                         }}
-                        className="w-14 h-8 text-center text-sm"
+                        className="w-16 h-8 text-center text-sm [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       />
                       <Button
                         variant="outline"
                         size="sm"
                         onClick={() =>
-                          updateQuantity(item.id, Math.min(99, item.quantity + 1))
+                          updateQuantity(item.product.id, Math.min(99, item.quantity + 1))
                         }
                         disabled={item.quantity >= 99}
                         className="w-8 h-8 p-0"
@@ -129,12 +132,12 @@ export default function CartPageClient() {
 
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-semibold text-gray-700">
-                        {formatPrice(item.price * item.quantity)}
+                        {formatPrice(item.product.sale_price * item.quantity)}
                       </span>
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.product.id)}
                         className="text-gray-400 hover:text-red-500 w-8 h-8 p-0"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -154,13 +157,13 @@ export default function CartPageClient() {
           <h3 className="text-lg font-semibold mb-4">주문 요약</h3>
 
           <div className="space-y-3 mb-6">
-            {items.map((item) => (
-              <div key={item.id} className="flex justify-between text-sm">
+            {items.map((item: CartItem) => (
+              <div key={item.product.id} className="flex justify-between text-sm">
                 <span className="text-gray-600 truncate mr-2">
-                  {item.name} x {item.quantity}
+                  {item.product.name} x {item.quantity}
                 </span>
                 <span className="text-gray-900 font-medium flex-shrink-0">
-                  {formatPrice(item.price * item.quantity)}
+                  {formatPrice(item.product.sale_price * item.quantity)}
                 </span>
               </div>
             ))}

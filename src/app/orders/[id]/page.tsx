@@ -135,7 +135,7 @@ export default async function OrderDetailPage({
                 </span>
               </div>
               <span className="font-medium">
-                {formatPrice(item.subtotal)}
+                {formatPrice(item.price * item.quantity)}
               </span>
             </div>
           ))}

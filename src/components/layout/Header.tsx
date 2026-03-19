@@ -39,7 +39,9 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const totalItems = useCartStore((s) => s.getTotalItems())
+  const totalItems = useCartStore((s) =>
+    s.items.reduce((sum, item) => sum + item.quantity, 0)
+  )
   const { user, profile, signOut, isAdmin, loading } = useAuth()
 
   useEffect(() => {
@@ -145,13 +147,18 @@ export function Header() {
               <Link
                 href="/cart"
                 className="relative p-2.5 rounded-lg text-slate-600 hover:text-navy-900 hover:bg-slate-50 transition-colors"
+                suppressHydrationWarning
               >
                 <ShoppingCart className="w-5 h-5" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-primary-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                    {totalItems > 99 ? '99+' : totalItems}
-                  </span>
-                )}
+                <span
+                  suppressHydrationWarning
+                  className={cn(
+                    "absolute -top-0.5 -right-0.5 w-5 h-5 bg-primary-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center",
+                    totalItems > 0 ? "flex" : "hidden"
+                  )}
+                >
+                  {totalItems > 99 ? '99+' : totalItems}
+                </span>
               </Link>
 
               {/* 로그인/프로필 */}

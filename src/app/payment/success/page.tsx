@@ -2,16 +2,16 @@
 
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { useCartStore } from '@/store/cart';
+import type { CartItem } from '@/store/cartStore';
+import { useCartStore } from '@/store/cartStore';
 import { motion } from 'framer-motion';
 import { CheckCircle, FileText, Loader2, Mail, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 export default function PaymentSuccessPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const { items, clearCart } = useCartStore();
 
   const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
@@ -26,7 +26,6 @@ export default function PaymentSuccessPage() {
   const customerEmail = searchParams.get('customerEmail') || '';
 
   useEffect(() => {
-    // 중복 호출 방지
     if (confirmCalled.current) return;
     if (!paymentKey || !orderId || !amount) return;
 
@@ -34,23 +33,23 @@ export default function PaymentSuccessPage() {
 
     async function confirmOrder() {
       try {
-        // localStorage에서 카트 아이템 가져오기
-        const cartData = localStorage.getItem('dewif-cart');
-        let cartItems: any[] = [];
+        // Zustand persist에서 카트 데이터 가져오기
+        let cartItems: CartItem[] = items;
 
-        if (cartData) {
+        // store가 비어있으면 localStorage에서 직접 파싱
+        if (cartItems.length === 0) {
           try {
-            const parsed = JSON.parse(cartData);
-            cartItems = parsed.state?.items || [];
+            const raw = localStorage.getItem('dewif-cart');
+            if (raw) {
+              const parsed = JSON.parse(raw);
+              cartItems = parsed.state?.items || [];
+            }
           } catch {
             cartItems = [];
           }
         }
 
-        // 현재 store에 있는 items가 있으면 우선 사용
-        const finalItems = items.length > 0 ? items : cartItems;
-
-        if (finalItems.length === 0) {
+        if (cartItems.length === 0) {
           setStatus('error');
           setErrorMessage('장바구니 정보를 찾을 수 없습니다');
           return;
@@ -65,10 +64,10 @@ export default function PaymentSuccessPage() {
             amount: Number(amount),
             customerName,
             customerEmail,
-            cartItems: finalItems.map((item: any) => ({
-              productId: item.productId || item.id,
-              name: item.name,
-              price: item.price,
+            cartItems: cartItems.map((item: CartItem) => ({
+              productId: item.product.id,
+              name: item.product.name,
+              price: item.product.sale_price,
               quantity: item.quantity,
             })),
           }),
@@ -79,7 +78,6 @@ export default function PaymentSuccessPage() {
         if (data.success) {
           setOrderNumber(data.orderNumber);
           setStatus('success');
-          // 결제 성공 후 장바구니 비우기
           clearCart();
         } else {
           setStatus('error');
