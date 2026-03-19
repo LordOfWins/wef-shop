@@ -13,6 +13,7 @@ import {
   Truck,
 } from 'lucide-react'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { AddToCartButton } from './AddToCartButton'
 
@@ -93,9 +94,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
         {/* 좌측: 이미지 */}
         <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-3xl aspect-square flex items-center justify-center">
           {typedProduct.image_url ? (
-            <img
+            <Image
               src={typedProduct.image_url}
               alt={typedProduct.name}
+              width={800}
+              height={600}
               className="max-w-[80%] max-h-[80%] object-contain"
             />
           ) : (

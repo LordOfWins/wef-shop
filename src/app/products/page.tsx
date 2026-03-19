@@ -4,6 +4,7 @@ import { calcDiscountRate, formatPrice } from '@/lib/utils'
 import type { Product } from '@/types'
 import { Package, ShoppingCart, Star } from 'lucide-react'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ProductFilters } from './ProductFilters'
 
@@ -103,9 +104,11 @@ export default async function ProductsPage({ searchParams }: PageProps) {
               >
                 <div className="relative aspect-[4/3] bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center overflow-hidden">
                   {product.image_url ? (
-                    <img
+                    <Image
                       src={product.image_url}
                       alt={product.name}
+                      width={800}
+                      height={600}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
