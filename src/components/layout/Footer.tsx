@@ -1,4 +1,5 @@
-import { FileText, Mail, Phone } from 'lucide-react'
+// src/components/layout/Footer.tsx
+import { FileText, Mail, MessageCircle, Phone } from 'lucide-react'
 import Link from 'next/link'
 
 export function Footer() {
@@ -49,6 +50,14 @@ export function Footer() {
                 <FileText className="w-4 h-4" />
                 1:1 문의는 이메일을 이용해주세요
               </p>
+              {/* 카카오톡 문의하기 */}
+              <a
+                href="#kakao-channel"
+                className="inline-flex items-center gap-2 mt-3 px-4 py-2.5 bg-[#FEE500] text-[#3C1E1E] rounded-xl text-sm font-semibold hover:bg-[#FDD835] transition-colors"
+              >
+                <MessageCircle className="w-4 h-4" />
+                카카오톡 문의하기
+              </a>
             </div>
           </div>
         </div>
