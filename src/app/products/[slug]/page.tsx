@@ -3,14 +3,14 @@ import { createClient } from '@/lib/supabase/server'
 import { calcDiscountRate, formatPrice } from '@/lib/utils'
 import type { Product } from '@/types'
 import {
-  Check,
-  Clock,
-  Mail,
-  Monitor,
-  Package,
-  Shield,
-  Star,
-  Truck,
+    Check,
+    Clock,
+    Mail,
+    Monitor,
+    Package,
+    Shield,
+    Star,
+    Truck,
 } from 'lucide-react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
@@ -173,7 +173,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </div>
             <div className="flex items-center gap-2 text-sm text-slate-600">
               <Shield className="w-4 h-4 text-primary-500 shrink-0" />
-              100% 정품 보증
+              정식 라이선스 보증
             </div>
             <div className="flex items-center gap-2 text-sm text-slate-600">
               <Monitor className="w-4 h-4 text-primary-500 shrink-0" />

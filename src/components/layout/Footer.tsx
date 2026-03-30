@@ -17,10 +17,10 @@ export function Footer() {
               <span className="text-xl font-bold text-white">위프 (WEEP)</span>
             </div>
             <p className="text-sm leading-relaxed">
-              정품 윈도우 · MS 오피스 라이선스 전문 스토어
+              윈도우 · MS 오피스 라이선스 스토어
             </p>
             <p className="text-sm mt-2">
-              100% 정품 제품키 · 5분 내 즉시 발송 · 정품 보증
+              정식 라이선스 제품키 · 5분 내 즉시 발송 · 라이선스 보증
             </p>
           </div>
 
@@ -31,6 +31,7 @@ export function Footer() {
               <Link href="/products" className="block text-sm hover:text-white transition-colors">전체 상품</Link>
               <Link href="/reviews" className="block text-sm hover:text-white transition-colors">구매후기</Link>
               <Link href="/faq" className="block text-sm hover:text-white transition-colors">자주 묻는 질문</Link>
+              <Link href="/terms" className="block text-sm hover:text-white transition-colors">이용약관</Link>
             </div>
           </div>
 

@@ -43,7 +43,7 @@ export default async function HomePage() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
-              정품 라이선스를
+              소프트웨어 라이선스를
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-accent-400">
                 최저가
@@ -54,7 +54,7 @@ export default async function HomePage() {
             <p className="text-lg text-slate-300 mb-10 max-w-xl mx-auto leading-relaxed">
               Windows 10/11 · MS Office 전 시리즈
               <br />
-              100% 정품 제품키 · 즉시 이메일 발송 · 영구 보증
+               정식 라이선스 제품키 · 즉시 이메일 발송 · 영구 보증
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -87,8 +87,8 @@ export default async function HomePage() {
                 <Shield className="w-6 h-6 text-primary-600" />
               </div>
               <div>
-                <p className="font-bold text-navy-900">100% 정품 보증</p>
-                <p className="text-sm text-slate-500">Microsoft 공식 라이선스</p>
+                 <p className="font-bold text-navy-900">정식 라이선스 보증</p>
+                <p className="text-sm text-slate-500">소프트웨어 라이선스</p>
               </div>
             </div>
 
@@ -120,7 +120,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-navy-900 mb-3">인기 상품</h2>
-            <p className="text-slate-500">가장 많이 찾는 정품 라이선스</p>
+             <p className="text-slate-500">가장 많이 찾는 소프트웨어 라이선스</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

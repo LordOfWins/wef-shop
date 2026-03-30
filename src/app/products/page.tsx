@@ -11,7 +11,7 @@ import { ProductFilters } from './ProductFilters'
 export const metadata: Metadata = {
   title: '전체 상품',
   description:
-    '위프(WEEP) 정품 윈도우·MS 오피스 라이선스 전체 상품을 확인하세요. Windows 10/11, Office 2024/2021/2019/2016/365 최저가 즉시 발송.',
+    '위프(WEEP) 윈도우·MS 오피스 라이선스 전체 상품을 확인하세요. Windows 10/11, Office 2024/2021/2019/2016/365 최저가 즉시 발송.',
 }
 
 interface PageProps {
@@ -75,7 +75,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-navy-900 mb-2">전체 상품</h1>
         <p className="text-slate-500">
-          정품 윈도우·MS 오피스 라이선스를 최저가로 만나보세요
+          윈도우·MS 오피스 라이선스를 만나보세요
         </p>
       </div>
 
