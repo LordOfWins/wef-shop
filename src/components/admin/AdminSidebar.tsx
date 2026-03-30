@@ -104,12 +104,16 @@ export function AdminSidebar({ counts }: AdminSidebarProps) {
               href={item.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
+                'relative flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
                 active
                   ? 'bg-primary-600 text-white shadow-md shadow-primary-600/20'
                   : 'text-slate-600 hover:bg-slate-100 hover:text-navy-900'
               )}
             >
+              {/* Active indicator bar */}
+              {active && (
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-white rounded-full" />
+              )}
               <Icon className="w-5 h-5 shrink-0" />
               <span className="flex-1">{item.label}</span>
               {count !== null && count > 0 && (

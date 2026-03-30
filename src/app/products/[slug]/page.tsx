@@ -1,19 +1,20 @@
 import { Badge } from '@/components/ui/Badge'
+import { PageTransition } from '@/components/ui/PageTransition'
+import { ImageZoom } from '@/components/product/ImageZoom'
+import { ProductTabs } from '@/components/product/ProductTabs'
+import { RelatedProducts } from '@/components/product/RelatedProducts'
 import { createClient } from '@/lib/supabase/server'
 import { calcDiscountRate, formatPrice } from '@/lib/utils'
 import type { Product } from '@/types'
 import {
-    Check,
-    Clock,
-    Mail,
-    Monitor,
-    Package,
-    Shield,
-    Star,
-    Truck,
+  Check,
+  Clock,
+  Monitor,
+  Shield,
+  Star,
+  Truck,
 } from 'lucide-react'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { AddToCartButton } from './AddToCartButton'
 
@@ -60,6 +61,16 @@ export default async function ProductDetailPage({ params }: PageProps) {
     category: { name: string; slug: string }
   }
 
+  // 같은 카테고리 추천 상품 (자기 자신 제외)
+  const { data: relatedProducts } = await supabase
+    .from('products')
+    .select('*, category:categories(*)')
+    .eq('status', 'active')
+    .eq('category_id', typedProduct.category_id)
+    .neq('id', typedProduct.id)
+    .order('sort_order')
+    .limit(3)
+
   const discountRate = calcDiscountRate(
     typedProduct.original_price,
     typedProduct.sale_price
@@ -73,7 +84,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         : []
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+    <PageTransition className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
       {/* 브레드크럼 */}
       <nav className="flex items-center gap-2 text-sm text-slate-400 mb-8">
         <a href="/" className="hover:text-primary-500 transition-colors">홈</a>
@@ -91,28 +102,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-        {/* 좌측: 이미지 */}
-        <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-3xl aspect-square flex items-center justify-center">
-          {typedProduct.image_url ? (
-            <Image
-              src={typedProduct.image_url}
-              alt={typedProduct.name}
-              width={800}
-              height={600}
-              className="max-w-[80%] max-h-[80%] object-contain"
-            />
-          ) : (
-            <div className="text-center">
-              <div className="w-24 h-24 bg-primary-100 rounded-3xl flex items-center justify-center mx-auto mb-4">
-                <Package className="w-12 h-12 text-primary-500" />
-              </div>
-              <p className="text-lg font-medium text-slate-400">
-                {typedProduct.category?.name}
-              </p>
-              <p className="text-sm text-slate-300 mt-1">Digital License</p>
-            </div>
-          )}
-        </div>
+        {/* 좌측: 이미지 줌 */}
+        <ImageZoom
+          src={typedProduct.image_url}
+          alt={typedProduct.name}
+          fallbackLabel={typedProduct.category?.name}
+        />
 
         {/* 우측: 상품 정보 */}
         <div>
@@ -211,41 +206,21 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* 상세 설명 */}
+      {/* 탭 UI (상세 설명 / 설치 방법 / 환불 정책) */}
       <div className="mt-12 lg:mt-16">
-        <div className="border-b border-slate-200 mb-8">
-          <h2 className="inline-block pb-4 border-b-2 border-primary-600 font-bold text-navy-900 text-lg">
-            상세 정보
-          </h2>
-        </div>
-        <div className="bg-white rounded-2xl border border-slate-100 p-8">
-          <div className="flex items-start gap-4 mb-8 pb-8 border-b border-slate-100">
-            <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center shrink-0">
-              <Mail className="w-5 h-5 text-primary-600" />
-            </div>
-            <div>
-              <h4 className="font-bold text-navy-900 mb-1">배송 안내</h4>
-              <p className="text-sm text-slate-500 leading-relaxed">
-                배송방법: 이메일 발송 / 배송비: 무료 / 소요시간: 결제 완료 후 5분 내 자동 발송
-              </p>
-            </div>
-          </div>
-
-          <p className="text-slate-600 leading-relaxed whitespace-pre-line">
-            {typedProduct.description}
-          </p>
-
-          <div className="mt-8 bg-amber-50 rounded-xl p-6">
-            <h4 className="font-bold text-amber-800 mb-3">유의 사항</h4>
-            <ul className="space-y-2 text-sm text-amber-700">
-              <li>• 제품키 발송 후에는 제품 특성상 교환/환불이 제한됩니다</li>
-              <li>• 기술적 문제 발생 시 90일 이내 무상 A/S 지원</li>
-              <li>• 제품키는 수령 후 20일 이내 사용을 권장합니다</li>
-              <li>• 입력하신 이메일 주소가 정확해야 정상 발송됩니다</li>
-            </ul>
-          </div>
-        </div>
+        <ProductTabs description={typedProduct.description} />
       </div>
-    </div>
+
+      {/* 추천 상품 */}
+      {relatedProducts && relatedProducts.length > 0 && (
+        <RelatedProducts
+          products={
+            relatedProducts as (Product & {
+              category: { name: string; slug: string }
+            })[]
+          }
+        />
+      )}
+    </PageTransition>
   )
 }

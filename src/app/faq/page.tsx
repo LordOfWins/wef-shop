@@ -1,5 +1,6 @@
 // src/app/faq/page.tsx
 import { FaqAccordion } from '@/components/faq/FaqAccordion'
+import { PageTransition } from '@/components/ui/PageTransition'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -42,7 +43,7 @@ const faqItems = [
 
 export default function FaqPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <PageTransition className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold text-navy-900 mb-3">자주 묻는 질문</h1>
         <p className="text-slate-500">궁금한 점이 있으시면 아래에서 찾아보세요</p>
@@ -61,6 +62,6 @@ export default function FaqPage() {
           로 문의해주시면 빠르게 답변드리겠습니다.
         </p>
       </div>
-    </div>
+      </PageTransition>
   )
 }

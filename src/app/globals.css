@@ -95,3 +95,69 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+/* ============================================
+   과업 1 — 히어로 그리드 패턴 & 유틸리티
+   ============================================ */
+
+/* 히어로 배경 그리드 패턴 (CSS-only) */
+.hero-grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* 히어로 도트 패턴 (보조 레이어) */
+.hero-dot-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* 미세한 그라데이션 시머 */
+@keyframes shimmer-slow {
+  0%, 100% { opacity: 0.5; transform: translateX(-10%) translateY(-10%); }
+  50% { opacity: 0.8; transform: translateX(10%) translateY(10%); }
+}
+
+.animate-shimmer-slow {
+  animation: shimmer-slow 12s ease-in-out infinite;
+}
+
+@keyframes shimmer-slow-reverse {
+  0%, 100% { opacity: 0.4; transform: translateX(10%) translateY(10%); }
+  50% { opacity: 0.7; transform: translateX(-10%) translateY(-10%); }
+}
+
+.animate-shimmer-slow-reverse {
+  animation: shimmer-slow-reverse 15s ease-in-out infinite;
+}
+
+/* 카운트업 표시용 tabular-nums */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+/* ============================================
+   과업 2 — 할인율 리본 뱃지
+   ============================================ */
+.discount-ribbon {
+  position: absolute;
+  top: 12px;
+  right: -6px;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 12px 4px 10px;
+  border-radius: 4px 0 0 4px;
+  line-height: 1.2;
+  z-index: 10;
+}
+.discount-ribbon::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 0;
+  border-style: solid;
+  border-width: 0 6px 6px 0;
+  border-color: transparent #991b1b transparent transparent;
+}

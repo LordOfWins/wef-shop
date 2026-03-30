@@ -1,5 +1,6 @@
 // src/app/reviews/page.tsx
 import { ReviewWriteSection } from '@/components/reviews/ReviewWriteSection'
+import { PageTransition } from '@/components/ui/PageTransition'
 import { createClient } from '@/lib/supabase/server'
 import { formatDate, maskName } from '@/lib/utils'
 import { Star } from 'lucide-react'
@@ -60,7 +61,7 @@ export default async function ReviewsPage({
   )
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <PageTransition className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* 헤더 */}
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold text-navy-900 mb-3">구매후기</h1>
@@ -132,6 +133,6 @@ export default async function ReviewsPage({
           ))}
         </div>
       )}
-    </div>
+    </PageTransition>
   )
 }

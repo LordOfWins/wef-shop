@@ -1,5 +1,6 @@
 'use client';
 
+import { StepIndicator } from '@/components/checkout/StepIndicator';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useAuth } from '@/hooks/useAuth';
@@ -161,7 +162,8 @@ export default function CheckoutForm() {
         strategy="afterInteractive"
         onLoad={() => setSdkLoaded(true)}
       />
-
+      {/* 진행 단계 표시 */}
+      <StepIndicator currentStep={2} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           {/* 주문자 정보 */}

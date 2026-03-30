@@ -1,5 +1,6 @@
 // src/app/admin/page.tsx
 import { Badge } from '@/components/ui/Badge'
+import { CountUp } from '@/components/ui/CountUp'
 import { createClient } from '@/lib/supabase/server'
 import { formatDate, formatPrice } from '@/lib/utils'
 import {
@@ -230,7 +231,7 @@ export default async function AdminDashboardPage() {
           return (
             <div
               key={card.title}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow"
+              className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
             >
               <div className="flex items-center justify-between mb-4">
                 <span className="text-sm font-medium text-slate-500">{card.title}</span>
@@ -241,7 +242,11 @@ export default async function AdminDashboardPage() {
                 </div>
               </div>
               <p className="text-2xl font-bold text-navy-900">
-                {formatPrice(card.amount)}
+                <CountUp
+                  end={card.amount}
+                  formatter={(v) => formatPrice(v)}
+                  className="tabular-nums"
+                />
               </p>
               <div className="flex items-center gap-1 mt-2">
                 {isPositive ? (
@@ -266,7 +271,7 @@ export default async function AdminDashboardPage() {
           ──────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         {/* 바 차트 (SVG 직접 구현 — 차트 라이브러리 없음) */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300">
           <h2 className="text-lg font-bold text-navy-900 mb-6">주간 매출</h2>
           <div className="h-64">
             <svg
@@ -362,7 +367,7 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* 키 재고 현황 */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300">
           <div className="flex items-center gap-2 mb-6">
             <Key className="w-5 h-5 text-primary-600" />
             <h2 className="text-lg font-bold text-navy-900">키 재고 현황</h2>
@@ -371,7 +376,7 @@ export default async function AdminDashboardPage() {
             {stockList.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-slate-50 transition-colors"
+                className="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-primary-50/40 transition-colors"
               >
                 <span className="text-sm font-medium text-navy-800 truncate flex-1 mr-3">
                   {item.name}
@@ -386,9 +391,13 @@ export default async function AdminDashboardPage() {
               </div>
             ))}
             {stockList.length === 0 && (
-              <p className="text-sm text-slate-400 text-center py-8">
-                등록된 상품이 없습니다
-              </p>
+              <div className="flex flex-col items-center gap-3 py-8">
+                <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center">
+                  <Key className="w-6 h-6 text-slate-300" />
+                </div>
+                <p className="text-sm text-slate-400">등록된 상품이 없습니다</p>
+                <p className="text-xs text-slate-300">상품을 등록하면 재고가 표시됩니다</p>
+              </div>
             )}
           </div>
         </div>
@@ -397,7 +406,7 @@ export default async function AdminDashboardPage() {
       {/* ────────────────────────────────────────
           최근 주문 5건
           ──────────────────────────────────────── */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <Package className="w-5 h-5 text-primary-600" />
@@ -441,7 +450,7 @@ export default async function AdminDashboardPage() {
                 return (
                   <tr
                     key={order.id}
-                    className="hover:bg-slate-50/50 transition-colors"
+                    className="hover:bg-primary-50/40 transition-colors"
                   >
                     <td className="py-3.5 pr-4">
                       <span className="text-sm font-mono font-medium text-navy-900">
@@ -474,8 +483,18 @@ export default async function AdminDashboardPage() {
               })}
               {recentOrders.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-sm text-slate-400">
-                    아직 주문이 없습니다
+                  <td colSpan={5} className="py-12 text-center">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center">
+                        <Package className="w-7 h-7 text-slate-300" />
+                      </div>
+                      <p className="text-sm font-medium text-slate-400">
+                        아직 주문이 없습니다
+                      </p>
+                      <p className="text-xs text-slate-300">
+                        첫 번째 주문이 들어오면 여기에 표시됩니다
+                      </p>
+                    </div>
                   </td>
                 </tr>
               )}
