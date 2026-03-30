@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: category.name,
     description:
       category.description ??
-      `위프(WEEP) ${category.name} 정품 라이선스를 최저가로 구매하세요`,
+      `위프(WEEP) ${category.name}  라이선스를 최저가로 구매하세요`,
   }
 }
 

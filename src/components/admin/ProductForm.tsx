@@ -358,7 +358,7 @@ export function ProductForm({ categories, initialData }: ProductFormProps) {
             {...register('features')}
             rows={4}
             className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-navy-900 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none resize-y"
-            placeholder="정품 인증&#10;영구 사용&#10;무제한 업데이트"
+            placeholder=" 인증&#10;영구 사용&#10;무제한 업데이트"
           />
         </div>
       </div>
