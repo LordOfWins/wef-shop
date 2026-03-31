@@ -15,15 +15,15 @@ export const metadata: Metadata = {
 function getStatusBadge(status: string) {
   switch (status) {
     case 'paid':
-      return <Badge variant="primary">결제완료</Badge>;
+      return <Badge variant="best">결제완료</Badge>;
     case 'delivered':
       return <Badge variant="success">발급완료</Badge>;
     case 'cancelled':
-      return <Badge variant="destructive">취소됨</Badge>;
+      return <Badge variant="danger">취소됨</Badge>;
     case 'refunded':
-      return <Badge variant="outline">환불됨</Badge>;
+      return <Badge variant="sale">환불됨</Badge>;
     default:
-      return <Badge variant="secondary">{status}</Badge>;
+      return <Badge variant="default">{status}</Badge>;
   }
 }
 
@@ -177,7 +177,7 @@ export default async function OrderDetailPage({
               {order.email_sent ? (
                 <Badge variant="success">발송완료</Badge>
               ) : (
-                <Badge variant="secondary">미발송</Badge>
+                  <Badge variant="default">미발송</Badge>
               )}
             </span>
           </div>

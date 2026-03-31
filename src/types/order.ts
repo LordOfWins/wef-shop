@@ -1,3 +1,5 @@
+import type { LicenseKey } from './license'
+
 export type OrderStatus = 'pending' | 'paid' | 'delivered' | 'cancelled' | 'refunded'
 
 export interface Order {

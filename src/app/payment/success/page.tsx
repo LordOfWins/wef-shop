@@ -149,7 +149,7 @@ export default function PaymentSuccessPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">주문번호</span>
-              <Badge variant="primary">{orderNumber}</Badge>
+              <Badge variant="best">{orderNumber}</Badge>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">결제 금액</span>
