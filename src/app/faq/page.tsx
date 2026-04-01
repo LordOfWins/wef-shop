@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: '자주 묻는 질문',
-  description: '위프 라이선스 구매 관련 자주 묻는 질문과 답변입니다.',
+  description: 'WEF 라이선스 구매 관련 자주 묻는 질문과 답변입니다.',
 }
 
 const faqItems = [
@@ -17,7 +17,7 @@ const faqItems = [
   {
     question: '영구 라이선스인가요?',
     answer:
-      '네, 위프에서 판매하는 Windows 및 Office 제품은 모두 영구 라이선스입니다. 한 번 구매하시면 추가 비용 없이 평생 사용하실 수 있습니다. 단, Office 365의 경우 1년 구독형 라이선스입니다.',
+      '네, WEF에서 판매하는 Windows 및 Office 제품은 모두 영구 라이선스입니다. 한 번 구매하시면 추가 비용 없이 평생 사용하실 수 있습니다. 단, Office 365의 경우 1년 구독형 라이선스입니다.',
   },
   {
     question: '몇 대까지 사용 가능한가요?',
@@ -56,8 +56,8 @@ export default function FaqPage() {
           원하시는 답변을 찾지 못하셨나요?
         </p>
         <p className="text-sm text-slate-500">
-          <a href="mailto:support@WEF.kr" className="text-primary-600 hover:text-primary-700 font-medium">
-            support@WEF.kr
+          <a href="mailto:support@wefsoft.kr" className="text-primary-600 hover:text-primary-700 font-medium">
+            support@wefsoft.kr
           </a>
           로 문의해주시면 빠르게 답변드리겠습니다.
         </p>

@@ -25,7 +25,7 @@ export function LicenseDeliveryEmail({
   return (
     <Html lang="ko">
       <Head />
-      <Preview>위프(WEF) 라이선스 키가 발급되었습니다</Preview>
+      <Preview>WEF 라이선스 키가 발급되었습니다</Preview>
       <Body style={main}>
         <Container style={container}>
           {/* 헤더 */}
@@ -89,7 +89,7 @@ export function LicenseDeliveryEmail({
           {/* 푸터 */}
           <Section style={footerSection}>
             <Text style={footerText}>
-              문의사항이 있으시면 support@WEF.kr로 연락해 주세요
+              문의사항이 있으시면 support@wefsoft.kr로 연락해 주세요
             </Text>
             <Text style={footerCopyright}>
               © {new Date().getFullYear()} WEF. All rights reserved.

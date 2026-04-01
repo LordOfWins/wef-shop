@@ -8,9 +8,9 @@ import { motion } from 'framer-motion';
 import { CheckCircle, FileText, Loader2, Mail, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const { items, clearCart } = useCartStore();
 
@@ -33,10 +33,8 @@ export default function PaymentSuccessPage() {
 
     async function confirmOrder() {
       try {
-        // Zustand persist에서 카트 데이터 가져오기
         let cartItems: CartItem[] = items;
 
-        // store가 비어있으면 localStorage에서 직접 파싱
         if (cartItems.length === 0) {
           try {
             const raw = localStorage.getItem('dewif-cart');
@@ -93,7 +91,6 @@ export default function PaymentSuccessPage() {
     confirmOrder();
   }, [paymentKey, orderId, amount, customerName, customerEmail, items, clearCart]);
 
-  // 처리 중
   if (status === 'processing') {
     return (
       <main className="container mx-auto px-4 py-20 max-w-lg min-h-screen flex flex-col items-center justify-center">
@@ -106,7 +103,6 @@ export default function PaymentSuccessPage() {
     );
   }
 
-  // 에러
   if (status === 'error') {
     return (
       <main className="container mx-auto px-4 py-20 max-w-lg min-h-screen flex flex-col items-center justify-center">
@@ -122,14 +118,13 @@ export default function PaymentSuccessPage() {
             <Button variant="outline">장바구니로 이동</Button>
           </Link>
           <Link href="/">
-            <Button variant="primary">홈으로 이동</Button>
+            <Button>홈으로 이동</Button>
           </Link>
         </div>
       </main>
     );
   }
 
-  // 성공
   return (
     <main className="container mx-auto px-4 py-20 max-w-lg min-h-screen">
       <motion.div
@@ -182,7 +177,7 @@ export default function PaymentSuccessPage() {
             </Button>
           </Link>
           <Link href="/products">
-            <Button variant="primary" className="w-full sm:w-auto">
+            <Button className="w-full sm:w-auto">
               <ShoppingBag className="w-4 h-4 mr-2" />
               쇼핑 계속하기
             </Button>
@@ -190,5 +185,13 @@ export default function PaymentSuccessPage() {
         </div>
       </motion.div>
     </main>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }

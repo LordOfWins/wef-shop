@@ -17,9 +17,9 @@ export async function sendLicenseEmail(params: SendLicenseEmailParams) {
   const html = await render(LicenseDeliveryEmail({ orderNumber, items }));
 
   const { data, error } = await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || 'noreply@WEF.kr',
+    from: process.env.RESEND_FROM_EMAIL || 'noreply@wefsoft.kr',
     to,
-    subject: `[위프] 주문 완료 — 라이선스 키 안내 (${orderNumber})`,
+    subject: `[WEF] 주문 완료 — 라이선스 키 안내 (${orderNumber})`,
     html,
   });
 

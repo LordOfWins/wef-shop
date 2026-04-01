@@ -5,8 +5,9 @@ import { motion } from 'framer-motion';
 import { RefreshCw, ShoppingCart, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function PaymentFailPage() {
+function PaymentFailContent() {
   const searchParams = useSearchParams();
   const code = searchParams.get('code') || 'UNKNOWN';
   const message =
@@ -46,7 +47,7 @@ export default function PaymentFailPage() {
 
         <div className="flex flex-col sm:flex-row gap-3 mt-8 justify-center">
           <Link href="/checkout">
-            <Button variant="primary" className="w-full sm:w-auto">
+            <Button className="w-full sm:w-auto">
               <RefreshCw className="w-4 h-4 mr-2" />
               다시 결제하기
             </Button>
@@ -60,5 +61,13 @@ export default function PaymentFailPage() {
         </div>
       </motion.div>
     </main>
+  );
+}
+
+export default function PaymentFailPage() {
+  return (
+    <Suspense>
+      <PaymentFailContent />
+    </Suspense>
   );
 }

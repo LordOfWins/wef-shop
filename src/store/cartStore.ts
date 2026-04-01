@@ -69,7 +69,7 @@ export const useCartStore = create<CartState>()(
       },
     }),
     {
-      name: 'dewif-cart',
+      name: 'wef-cart',
     }
   )
 )

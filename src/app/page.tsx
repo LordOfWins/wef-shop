@@ -144,7 +144,7 @@ export default async function HomePage() {
                   iconBg: 'bg-primary-50',
                   iconColor: 'text-primary-600',
                   title: '정식 라이선스 보증',
-                  desc: 'Microsoft 공식 인증 제품키',
+                  desc: '정식 라이선스 제품키',
                 },
                 {
                   icon: Zap,
@@ -356,17 +356,17 @@ export default async function HomePage() {
       )}
 
       {/* ─────────────────────────────────────────
-          왜 위프인가 (추가 신뢰 섹션)
+          왜 WEF인가 (추가 신뢰 섹션)
           ───────────────────────────────────────── */}
       <ScrollReveal>
         <section className="py-20 bg-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <p className="text-sm font-semibold text-primary-500 uppercase tracking-wider mb-2">
-                Why WEF
+                Why WEF?
               </p>
               <h2 className="text-3xl font-bold text-navy-900 mb-3">
-                왜 위프일까요?
+                왜 WEF일까요?
               </h2>
               <p className="text-slate-500">
                 고객님의 소중한 시간과 비용을 아껴드립니다
@@ -385,7 +385,7 @@ export default async function HomePage() {
                 {
                   icon: Shield,
                   title: '정품 100% 보증',
-                  desc: '모든 제품키는 Microsoft 공식 인증 가능한 정식 라이선스입니다.',
+                  desc: '모든 제품키는 정품 인증 가능한 정식 라이선스입니다.',
                   iconBg: 'bg-emerald-50',
                   iconColor: 'text-emerald-600',
                 },

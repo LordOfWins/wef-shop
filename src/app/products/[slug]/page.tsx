@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: product.name,
     description: product.short_description,
     openGraph: {
-      title: `${product.name} | 위프 (WEF)`,
+      title: `${product.name} | WEF`,
       description: product.short_description,
     },
   }

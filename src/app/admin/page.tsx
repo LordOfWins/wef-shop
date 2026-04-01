@@ -217,7 +217,7 @@ export default async function AdminDashboardPage() {
       {/* 페이지 헤더 */}
       <div>
         <h1 className="text-2xl font-bold text-navy-900">대시보드</h1>
-        <p className="text-slate-500 mt-1">위프 쇼핑몰의 현황을 한눈에 확인하세요</p>
+        <p className="text-slate-500 mt-1">WEF 쇼핑몰의 현황을 한눈에 확인하세요</p>
       </div>
 
       {/* ────────────────────────────────────────

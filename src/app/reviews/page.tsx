@@ -8,7 +8,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: '구매후기',
-  description: '위프 고객님들의 생생한 구매후기를 확인하세요.',
+  description: 'WEF 고객님들의 생생한 구매후기를 확인하세요.',
 }
 
 export default async function ReviewsPage({
@@ -100,7 +100,7 @@ export default async function ReviewsPage({
                   <div className="w-5 h-5 bg-primary-600 rounded flex items-center justify-center">
                     <span className="text-white text-[10px] font-bold">W</span>
                   </div>
-                  <span className="text-xs font-semibold text-primary-600">위프 관리자</span>
+                <span className="text-xs font-semibold text-primary-600">WEF 관리자</span>
                 </div>
                 <p className="text-sm text-navy-800">{review.admin_reply}</p>
               </div>
