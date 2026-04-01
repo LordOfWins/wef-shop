@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import type { CartItem } from '@/store/cartStore';
-import { useCartStore } from '@/store/cartStore';
+import { CART_STORAGE_KEY, useCartStore } from '@/store/cartStore';
 import { motion } from 'framer-motion';
 import { CheckCircle, FileText, Loader2, Mail, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
@@ -37,7 +37,8 @@ function PaymentSuccessContent() {
 
         if (cartItems.length === 0) {
           try {
-            const raw = localStorage.getItem('dewif-cart');
+            // ★ FIX: 하드코딩 'dewif-cart' → CART_STORAGE_KEY 상수 사용
+            const raw = localStorage.getItem(CART_STORAGE_KEY);
             if (raw) {
               const parsed = JSON.parse(raw);
               cartItems = parsed.state?.items || [];

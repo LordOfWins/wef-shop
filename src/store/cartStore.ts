@@ -1,6 +1,10 @@
+// src/store/cartStore.ts
 import type { Product } from '@/types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+
+/** localStorage key — 여러 곳에서 참조하므로 상수로 export */
+export const CART_STORAGE_KEY = 'wef-cart'
 
 export interface CartItem {
   product: Product
@@ -40,7 +44,9 @@ export const useCartStore = create<CartState>()(
       },
 
       removeItem: (productId) => {
-        set({ items: get().items.filter((item) => item.product.id !== productId) })
+        set({
+          items: get().items.filter((item) => item.product.id !== productId),
+        })
       },
 
       updateQuantity: (productId, quantity) => {
@@ -69,7 +75,7 @@ export const useCartStore = create<CartState>()(
       },
     }),
     {
-      name: 'wef-cart',
+      name: CART_STORAGE_KEY,
     }
   )
 )

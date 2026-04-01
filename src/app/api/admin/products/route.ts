@@ -1,22 +1,11 @@
 // src/app/api/admin/products/route.ts
+import { checkAdmin } from '@/lib/auth/checkAdmin'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import {
+  createProductSchema,
+  updateProductSchema,
+} from '@/lib/validations/product'
 import { NextRequest, NextResponse } from 'next/server'
-
-// 관리자 인증 체크 헬퍼
-async function checkAdmin() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single()
-
-  return profile?.role === 'admin' ? user : null
-}
 
 // 상품 등록
 export async function POST(request: NextRequest) {
@@ -27,11 +16,24 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
+
+    // ★ FIX: Zod validation 추가
+    const parsed = createProductSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          error: '입력값이 올바르지 않습니다',
+          details: parsed.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      )
+    }
+
     const supabaseAdmin = createAdminClient()
 
     const { data, error } = await supabaseAdmin
       .from('products')
-      .insert(body)
+      .insert(parsed.data)
       .select()
       .single()
 
@@ -54,7 +56,20 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { id, ...updateData } = body
+
+    // ★ FIX: Zod validation 추가
+    const parsed = updateProductSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          error: '입력값이 올바르지 않습니다',
+          details: parsed.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      )
+    }
+
+    const { id, ...updateData } = parsed.data
     const supabaseAdmin = createAdminClient()
 
     const { data, error } = await supabaseAdmin
@@ -85,7 +100,10 @@ export async function DELETE(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
     if (!id) {
-      return NextResponse.json({ error: '상품 ID가 필요합니다' }, { status: 400 })
+      return NextResponse.json(
+        { error: '상품 ID가 필요합니다' },
+        { status: 400 }
+      )
     }
 
     const supabaseAdmin = createAdminClient()

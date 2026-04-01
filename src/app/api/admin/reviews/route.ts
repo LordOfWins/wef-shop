@@ -1,21 +1,10 @@
 // src/app/api/admin/reviews/route.ts
+import { checkAdmin } from '@/lib/auth/checkAdmin'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-async function checkAdmin() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single()
-  return profile?.role === 'admin' ? user : null
-}
+// ★ FIX: 로컬 checkAdmin() 제거, 공용 import 사용
 
-// 리뷰 is_visible 토글 + 관리자 답글
 export async function PATCH(request: NextRequest) {
   try {
     const admin = await checkAdmin()
@@ -27,7 +16,10 @@ export async function PATCH(request: NextRequest) {
     const { id, ...updateData } = body
 
     if (!id) {
-      return NextResponse.json({ error: '리뷰 ID가 필요합니다' }, { status: 400 })
+      return NextResponse.json(
+        { error: '리뷰 ID가 필요합니다' },
+        { status: 400 }
+      )
     }
 
     const supabaseAdmin = createAdminClient()
