@@ -192,8 +192,8 @@ function generateSVG(p: ProductDesign): string {
   <!-- 서브타이틀 -->
   <text x="400" y="420" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="rgba(255,255,255,0.75)" letter-spacing="2">${p.subtitle}</text>
 
-  <!-- 하단 WEEP 브랜딩 -->
-  <text x="400" y="540" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.25)" letter-spacing="6">WEEP</text>
+  <!-- 하단 WEF 브랜딩 -->
+  <text x="400" y="540" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600" fill="rgba(255,255,255,0.25)" letter-spacing="6">WEF</text>
 
   <!-- 하단 라인 포인트 -->
   <rect x="350" y="555" width="100" height="2" rx="1" fill="rgba(255,255,255,0.15)"/>
@@ -204,7 +204,7 @@ function generateSVG(p: ProductDesign): string {
 // 메인 실행
 // ─────────────────────────────────────────────
 async function main() {
-  console.log('🎨 WEEP 제품 이미지 생성 + Supabase 업로드 스크립트\n')
+  console.log('🎨 WEF 제품 이미지 생성 + Supabase 업로드 스크립트\n')
 
   // 1단계: 임시 폴더 생성
   if (!fs.existsSync(OUTPUT_DIR)) {

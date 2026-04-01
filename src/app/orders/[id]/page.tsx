@@ -8,7 +8,7 @@ import { notFound, redirect } from 'next/navigation';
 import ResendEmailButton from './ResendEmailButton';
 
 export const metadata: Metadata = {
-  title: '주문 상세 | WEEP',
+  title: '주문 상세 | WEF',
   description: '주문 상세 정보를 확인하세요',
 };
 
@@ -177,7 +177,7 @@ export default async function OrderDetailPage({
               {order.email_sent ? (
                 <Badge variant="success">발송완료</Badge>
               ) : (
-                  <Badge variant="default">미발송</Badge>
+                <Badge variant="default">미발송</Badge>
               )}
             </span>
           </div>

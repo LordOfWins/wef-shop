@@ -11,7 +11,7 @@ import { ProductFilters } from './ProductFilters'
 export const metadata: Metadata = {
   title: '전체 상품',
   description:
-    '위프(WEEP) 윈도우·MS 오피스 라이선스 전체 상품을 확인하세요. Windows 10/11, Office 2024/2021/2019/2016/365 최저가 즉시 발송.',
+    '위프(WEF) 윈도우·MS 오피스 라이선스 전체 상품을 확인하세요. Windows 10/11, Office 2024/2021/2019/2016/365 최저가 즉시 발송.',
 }
 
 interface PageProps {
@@ -110,11 +110,10 @@ export default async function ProductsPage({ searchParams }: PageProps) {
               <Link
                 key={product.id}
                 href={`/products/${product.slug}`}
-                className={`group relative bg-white rounded-2xl border border-slate-100 overflow-hidden transition-all duration-300 ${
-                  isOutOfStock
+                className={`group relative bg-white rounded-2xl border border-slate-100 overflow-hidden transition-all duration-300 ${isOutOfStock
                     ? 'opacity-75 grayscale pointer-events-none'
                     : 'hover:shadow-xl hover:shadow-slate-200/60 hover:border-primary-200'
-                }`}
+                  }`}
               >
                 <div className="relative aspect-[4/3] bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center overflow-hidden">
                   {product.image_url ? (
@@ -123,9 +122,8 @@ export default async function ProductsPage({ searchParams }: PageProps) {
                       alt={product.name}
                       width={800}
                       height={600}
-                      className={`w-full h-full object-cover transition-transform duration-700 ease-out ${
-                        !isOutOfStock ? 'group-hover:scale-[1.07]' : ''
-                      }`}
+                      className={`w-full h-full object-cover transition-transform duration-700 ease-out ${!isOutOfStock ? 'group-hover:scale-[1.07]' : ''
+                        }`}
                     />
                   ) : (
                     <div className="text-center p-6">

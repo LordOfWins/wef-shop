@@ -85,7 +85,7 @@ export function AdminSidebar({ counts }: AdminSidebarProps) {
             <span className="text-white font-bold text-lg">W</span>
           </div>
           <div>
-            <p className="text-lg font-bold text-navy-900">WEEP</p>
+            <p className="text-lg font-bold text-navy-900">WEF</p>
             <p className="text-xs text-slate-500">관리자 패널</p>
           </div>
         </Link>

@@ -25,12 +25,12 @@ export function LicenseDeliveryEmail({
   return (
     <Html lang="ko">
       <Head />
-      <Preview>위프(WEEP) 라이선스 키가 발급되었습니다</Preview>
+      <Preview>위프(WEF) 라이선스 키가 발급되었습니다</Preview>
       <Body style={main}>
         <Container style={container}>
           {/* 헤더 */}
           <Section style={headerSection}>
-            <Heading style={logo}>WEEP</Heading>
+            <Heading style={logo}>WEF</Heading>
             <Text style={headerSubtitle}>소프트웨어 라이선스 스토어</Text>
           </Section>
 
@@ -89,10 +89,10 @@ export function LicenseDeliveryEmail({
           {/* 푸터 */}
           <Section style={footerSection}>
             <Text style={footerText}>
-              문의사항이 있으시면 support@weep.kr로 연락해 주세요
+              문의사항이 있으시면 support@WEF.kr로 연락해 주세요
             </Text>
             <Text style={footerCopyright}>
-              © {new Date().getFullYear()} WEEP. All rights reserved.
+              © {new Date().getFullYear()} WEF. All rights reserved.
             </Text>
           </Section>
         </Container>

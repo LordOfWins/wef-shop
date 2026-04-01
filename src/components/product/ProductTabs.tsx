@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Mail } from 'lucide-react'
 import { useState } from 'react'
 
@@ -118,7 +118,7 @@ export function ProductTabs({ description }: ProductTabsProps) {
                                 </ol>
                             </div>
                             <div className="bg-primary-50 rounded-xl p-5 text-sm text-primary-700">
-                                <strong>💡 어려우신가요?</strong> 이메일(support@weep.kr)로 문의 주시면 원격 지원도 가능합니다.
+                                <strong>💡 어려우신가요?</strong> 이메일(support@WEF.kr)로 문의 주시면 원격 지원도 가능합니다.
                             </div>
                         </div>
                     )}

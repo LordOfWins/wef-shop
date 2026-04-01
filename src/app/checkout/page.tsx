@@ -2,7 +2,7 @@ import CheckoutForm from '@/components/checkout/CheckoutForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '결제하기 | WEEP',
+  title: '결제하기 | WEF',
   description: '소프트웨어 라이선스 결제를 진행합니다',
 };
 

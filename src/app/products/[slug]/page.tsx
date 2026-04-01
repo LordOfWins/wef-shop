@@ -1,8 +1,8 @@
-import { Badge } from '@/components/ui/Badge'
-import { PageTransition } from '@/components/ui/PageTransition'
 import { ImageZoom } from '@/components/product/ImageZoom'
 import { ProductTabs } from '@/components/product/ProductTabs'
 import { RelatedProducts } from '@/components/product/RelatedProducts'
+import { Badge } from '@/components/ui/Badge'
+import { PageTransition } from '@/components/ui/PageTransition'
 import { createClient } from '@/lib/supabase/server'
 import { calcDiscountRate, formatPrice } from '@/lib/utils'
 import type { Product } from '@/types'
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: product.name,
     description: product.short_description,
     openGraph: {
-      title: `${product.name} | 위프 (WEEP)`,
+      title: `${product.name} | 위프 (WEF)`,
       description: product.short_description,
     },
   }

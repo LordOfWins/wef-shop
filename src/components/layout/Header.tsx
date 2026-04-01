@@ -72,7 +72,7 @@ export function Header() {
                 <span className="text-white font-bold text-sm">W</span>
               </div>
               <span className="text-xl font-bold text-navy-900">
-                위프 (WEEP)
+                위프 (WEF)
               </span>
             </Link>
 

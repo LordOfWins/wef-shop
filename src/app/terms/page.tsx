@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
     title: '이용약관',
-    description: '위프(WEEP) 서비스 이용약관입니다.',
+    description: '위프(WEF) 서비스 이용약관입니다.',
 }
 
 export default function TermsPage() {
@@ -19,7 +19,7 @@ export default function TermsPage() {
                 <section>
                     <h2 className="text-lg font-bold text-navy-900 mb-3">제1조 (목적)</h2>
                     <p className="text-slate-600 leading-relaxed">
-                        본 약관은 위프(WEEP)(이하 &quot;플랫폼&quot;)이 제공하는 웹사이트 운영 도구 및
+                        본 약관은 위프(WEF)(이하 &quot;플랫폼&quot;)이 제공하는 웹사이트 운영 도구 및
                         관련 서비스(이하 &quot;서비스&quot;)의 이용과 관련하여 플랫폼과 이용자 간의 권리,
                         의무 및 책임 사항을 규정함을 목적으로 합니다.
                     </p>
@@ -30,7 +30,7 @@ export default function TermsPage() {
                     <h2 className="text-lg font-bold text-navy-900 mb-3">제2조 (정의)</h2>
                     <div className="space-y-2 text-slate-600 leading-relaxed">
                         <p>
-                            ① &quot;플랫폼&quot;이란 위프(WEEP)이 운영하는 웹사이트 및 관련 시스템을 말합니다.
+                            ① &quot;플랫폼&quot;이란 위프(WEF)이 운영하는 웹사이트 및 관련 시스템을 말합니다.
                         </p>
                         <p>
                             ② &quot;이용자&quot;란 본 약관에 따라 플랫폼이 제공하는 서비스를 이용하는 자를 말합니다.
@@ -137,10 +137,10 @@ export default function TermsPage() {
                 <p className="text-sm text-slate-400">
                     본 약관에 대한 문의는{' '}
                     <a
-                        href="mailto:support@weep.kr"
+                        href="mailto:support@WEF.kr"
                         className="text-primary-600 hover:text-primary-700 font-medium"
                     >
-                        support@weep.kr
+                        support@WEF.kr
                     </a>
                     로 연락해주세요.
                 </p>

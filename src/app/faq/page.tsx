@@ -56,12 +56,12 @@ export default function FaqPage() {
           원하시는 답변을 찾지 못하셨나요?
         </p>
         <p className="text-sm text-slate-500">
-          <a href="mailto:support@weep.kr" className="text-primary-600 hover:text-primary-700 font-medium">
-            support@weep.kr
+          <a href="mailto:support@WEF.kr" className="text-primary-600 hover:text-primary-700 font-medium">
+            support@WEF.kr
           </a>
           로 문의해주시면 빠르게 답변드리겠습니다.
         </p>
       </div>
-      </PageTransition>
+    </PageTransition>
   )
 }

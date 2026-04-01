@@ -1,6 +1,6 @@
-import { render } from '@react-email/render';
 import { LicenseDeliveryEmail } from '@/emails/LicenseDeliveryEmail';
 import { resend } from '@/lib/resend';
+import { render } from '@react-email/render';
 
 interface SendLicenseEmailParams {
   to: string;
@@ -17,7 +17,7 @@ export async function sendLicenseEmail(params: SendLicenseEmailParams) {
   const html = await render(LicenseDeliveryEmail({ orderNumber, items }));
 
   const { data, error } = await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || 'noreply@weep.kr',
+    from: process.env.RESEND_FROM_EMAIL || 'noreply@WEF.kr',
     to,
     subject: `[위프] 주문 완료 — 라이선스 키 안내 (${orderNumber})`,
     html,

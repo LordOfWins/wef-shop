@@ -7,8 +7,8 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: '위프 (WEEP) - 윈도우 · MS 오피스 라이선스 스토어',
-    template: '%s | 위프 (WEEP)',
+    default: '위프 (WEF) - 윈도우 · MS 오피스 라이선스 스토어',
+    template: '%s | 위프 (WEF)',
   },
   description:
     '윈도우 10/11, MS 오피스 2024/2021/2019/2016/365 라이선스를 최저가로 즉시 발송합니다. 정식 라이선스 보증.',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    siteName: '위프 (WEEP)',
+    siteName: '위프 (WEF)',
   },
 }
 

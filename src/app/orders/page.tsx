@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: '주문내역 | WEEP',
+  title: '주문내역 | WEF',
   description: '주문 내역을 확인하세요',
 };
 

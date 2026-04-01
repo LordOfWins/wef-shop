@@ -14,7 +14,7 @@ export function Footer() {
               <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">W</span>
               </div>
-              <span className="text-xl font-bold text-white">위프 (WEEP)</span>
+              <span className="text-xl font-bold text-white">위프 (WEF)</span>
             </div>
             <p className="text-sm leading-relaxed">
               윈도우 · MS 오피스 라이선스 스토어
@@ -39,9 +39,9 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">고객센터</h3>
             <div className="space-y-2.5">
-              <a href="mailto:support@weep.kr" className="flex items-center gap-2 text-sm hover:text-white transition-colors">
+              <a href="mailto:support@WEF.kr" className="flex items-center gap-2 text-sm hover:text-white transition-colors">
                 <Mail className="w-4 h-4" />
-                support@weep.kr
+                support@WEF.kr
               </a>
               <p className="flex items-center gap-2 text-sm">
                 <Phone className="w-4 h-4" />
@@ -72,7 +72,7 @@ export function Footer() {
               <p>상호명: 위프 | 대표: 강경제 | 사업자등록번호: 납품 후 등록 예정</p>
               <p>사업장 주소: 납품 후 등록 예정 | 통신판매업신고: 납품 후 등록 예정</p>
             </div>
-            <p>&copy; {new Date().getFullYear()} 위프 (WEEP) All rights reserved</p>
+            <p>&copy; {new Date().getFullYear()} 위프 (WEF) All rights reserved</p>
           </div>
         </div>
       </div>
