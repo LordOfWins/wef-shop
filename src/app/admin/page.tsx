@@ -244,7 +244,7 @@ export default async function AdminDashboardPage() {
               <p className="text-2xl font-bold text-navy-900">
                 <CountUp
                   end={card.amount}
-                  formatter={(v) => formatPrice(v)}
+                  format="price"
                   className="tabular-nums"
                 />
               </p>

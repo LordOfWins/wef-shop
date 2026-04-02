@@ -1,7 +1,9 @@
+// src/components/ui/CountUp.tsx
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { formatPrice } from '@/lib/utils'
 
 interface CountUpProps {
     end: number
@@ -9,7 +11,7 @@ interface CountUpProps {
     prefix?: string
     suffix?: string
     className?: string
-    formatter?: (value: number) => string
+    format?: 'price' | 'number'
 }
 
 export function CountUp({
@@ -18,7 +20,7 @@ export function CountUp({
     prefix = '',
     suffix = '',
     className,
-    formatter,
+    format = 'number',
 }: CountUpProps) {
     const ref = useRef<HTMLSpanElement>(null)
     const isInView = useInView(ref, { once: true, margin: '-40px' })
@@ -50,8 +52,8 @@ export function CountUp({
         return () => cancelAnimationFrame(animationFrame)
     }, [isInView, end, duration])
 
-    const formatted = formatter
-        ? formatter(displayValue)
+    const formatted = format === 'price'
+        ? formatPrice(displayValue)
         : displayValue.toLocaleString('ko-KR')
 
     return (
